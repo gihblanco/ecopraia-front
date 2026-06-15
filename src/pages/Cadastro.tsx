@@ -39,13 +39,9 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      // Validate
       schema.parse({ name, email, password, confirm });
 
-      // Register
       await register({ nome: name, email, senha: password });
-
-      // Redirect to login
       navigate("/login");
     } catch (err) {
       if (err instanceof z.ZodError) {
