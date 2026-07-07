@@ -23,6 +23,7 @@ import {
   Footprints,
   LogIn,
   LogOut,
+  Info,
 } from "lucide-react";
 import {
   getInformativosAll,
@@ -63,6 +64,7 @@ interface WasteTypeOption {
   id: number;
   nomeTipo: string;
   cor: string;
+  informativo?: string;
 }
 
 const DEFAULT_WASTE_TYPE_COLORS: Record<string, string> = {
@@ -73,14 +75,52 @@ const DEFAULT_WASTE_TYPE_COLORS: Record<string, string> = {
   Orgânico: "#8B7355",
 };
 
+const DEFAULT_WASTE_TYPE_INFO: Record<string, string> = {
+  Papel:
+    "Papéis, papelões e embalagens de papel limpo. Jornais, revistas, caixas e envelopes podem ser reciclados, mas devem estar secos e sem restos de comida ou gordura — papel engordurado ou papel higiênico não são recicláveis.",
+  Plástico:
+    "Garrafas PET, sacolas, potes, tampas e embalagens plásticas em geral. Sempre que possível, esvazie e enxágue antes de descartar para evitar contaminação e mau cheiro na lixeira.",
+  Vidro:
+    "Garrafas, potes e frascos de vidro inteiros ou quebrados. Embale cacos de vidro em papel ou jornal antes de descartar para evitar acidentes com quem manuseia a coleta.",
+  Metal:
+    "Latas de alumínio e aço, tampas metálicas, arames e pequenas peças de metal. Latas de refrigerante e conservas devem ser enxaguadas e, se possível, amassadas para ocupar menos espaço.",
+  Orgânico:
+    "Restos de comida, cascas de frutas e legumes, borra de café e folhas. São biodegradáveis e podem virar adubo por compostagem — evite misturar com plástico ou papel.",
+};
+
 const STORAGE_KEY_LIXEIRA_TYPES = "ecopraia:lixeira-types";
 
 const DEFAULT_WASTE_TYPES: WasteTypeOption[] = [
-  { id: 1, nomeTipo: "Plástico", cor: DEFAULT_WASTE_TYPE_COLORS.Plástico },
-  { id: 2, nomeTipo: "Vidro", cor: DEFAULT_WASTE_TYPE_COLORS.Vidro },
-  { id: 3, nomeTipo: "Papel", cor: DEFAULT_WASTE_TYPE_COLORS.Papel },
-  { id: 4, nomeTipo: "Orgânico", cor: DEFAULT_WASTE_TYPE_COLORS.Orgânico },
-  { id: 5, nomeTipo: "Metal", cor: DEFAULT_WASTE_TYPE_COLORS.Metal },
+  {
+    id: 1,
+    nomeTipo: "Plástico",
+    cor: DEFAULT_WASTE_TYPE_COLORS.Plástico,
+    informativo: DEFAULT_WASTE_TYPE_INFO.Plástico,
+  },
+  {
+    id: 2,
+    nomeTipo: "Vidro",
+    cor: DEFAULT_WASTE_TYPE_COLORS.Vidro,
+    informativo: DEFAULT_WASTE_TYPE_INFO.Vidro,
+  },
+  {
+    id: 3,
+    nomeTipo: "Papel",
+    cor: DEFAULT_WASTE_TYPE_COLORS.Papel,
+    informativo: DEFAULT_WASTE_TYPE_INFO.Papel,
+  },
+  {
+    id: 4,
+    nomeTipo: "Orgânico",
+    cor: DEFAULT_WASTE_TYPE_COLORS.Orgânico,
+    informativo: DEFAULT_WASTE_TYPE_INFO.Orgânico,
+  },
+  {
+    id: 5,
+    nomeTipo: "Metal",
+    cor: DEFAULT_WASTE_TYPE_COLORS.Metal,
+    informativo: DEFAULT_WASTE_TYPE_INFO.Metal,
+  },
 ];
 
 function loadSavedLixeiraTypes(): Record<string, string[]> {
@@ -606,6 +646,9 @@ export default function MapsPage() {
                   item?.cor ??
                   DEFAULT_WASTE_TYPE_COLORS[item?.nomeTipo] ??
                   "#64748b",
+                informativo:
+                  item?.informativo ??
+                  DEFAULT_WASTE_TYPE_INFO[item?.nomeTipo],
               }))
             : DEFAULT_WASTE_TYPES;
 
@@ -1259,6 +1302,23 @@ export default function MapsPage() {
     }
   };
 
+  const handleShowTypeInfo = (
+    type: WasteTypeOption,
+    e: React.MouseEvent
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    Swal.fire({
+      title: type.nomeTipo,
+      text:
+        type.informativo ||
+        "Nenhuma informação cadastrada para este tipo ainda.",
+      icon: "info",
+      confirmButtonColor: "#22c55e",
+    });
+  };
+
   const handleTypeToggle = (type: WasteTypeOption) => {
     setSelectedTypes(prev =>
       prev.includes(type.nomeTipo)
@@ -1663,6 +1723,15 @@ export default function MapsPage() {
                           {type.nomeTipo}
                         </span>
                       </span>
+
+                      <button
+                        type="button"
+                        className="maps-type-info-btn"
+                        aria-label={`Saiba mais sobre ${type.nomeTipo}`}
+                        onClick={e => handleShowTypeInfo(type, e)}
+                      >
+                        <Info size={16} />
+                      </button>
                     </label>
                   );
                 })}
