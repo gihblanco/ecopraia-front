@@ -427,4 +427,8 @@
   .waste-brown { @apply bg-[oklch(0.4_0.1_30)] }
 }
 
+.swal2-container {
+  pointer-events: auto !important;
+}
+
 
