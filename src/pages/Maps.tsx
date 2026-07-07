@@ -1226,6 +1226,12 @@ export default function MapsPage() {
       await deleteLixeiras({ id: editingTrashId });
 
       removeSavedLixeiraTypes(editingTrashId);
+      setServerTrashes(current =>
+        current.filter(item => item.id !== editingTrashId)
+      );
+      setExtraTrashes(current =>
+        current.filter(item => item.id !== editingTrashId)
+      );
       setSelectedTrash(null);
       setShowRouting(false);
       clearRoute();
