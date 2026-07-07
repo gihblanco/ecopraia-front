@@ -66,11 +66,11 @@ interface WasteTypeOption {
 }
 
 const DEFAULT_WASTE_TYPE_COLORS: Record<string, string> = {
+  Papel: "#457B9D",
   Plástico: "#E63946",
   Vidro: "#2A9D8F",
-  Papel: "#457B9D",
-  Orgânico: "#F4A261",
-  Metal: "#4e8d39",
+  Metal: "#F4A261",
+  Orgânico: "#8B7355",
 };
 
 const STORAGE_KEY_LIXEIRA_TYPES = "ecopraia:lixeira-types";
