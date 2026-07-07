@@ -1202,7 +1202,7 @@ export default function MapsPage() {
     if (editingTrashSource !== "backend") {
       Swal.fire({
         title: "Não é possível excluir",
-        text: "Essa lixeira é apenas de demonstração e não existe no backend.",
+        text: "Não foi possível excluir, é uma lixeira de demonstração.",
         icon: "info",
         confirmButtonColor: "#22c55e",
       });
@@ -1356,7 +1356,7 @@ export default function MapsPage() {
         setExtraTrashes(current => [...current, saved]);
         Swal.fire({
           title: "Sucesso!",
-          text: "Lixeira cadastrada no backend.",
+          text: "Lixeira cadastrada com sucesso!",
           icon: "success",
           confirmButtonColor: "#22c55e",
           timer: 2000,
@@ -1375,7 +1375,7 @@ export default function MapsPage() {
       console.error("Erro ao salvar lixeira:", err);
       Swal.fire({
         title: "Erro",
-        text: err?.message || "Não foi possível salvar a lixeira no backend.",
+        text: err?.message || "Não foi possível registrar a lixeira.",
         icon: "error",
         confirmButtonColor: "#22c55e",
       });
